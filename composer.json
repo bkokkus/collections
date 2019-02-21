@@ -1,0 +1,9 @@
+{
+    "name": "arka-plan/collections",
+    "description": "PHP Array Collections",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+    	"php" : ">=7.0"
+    }
+}
