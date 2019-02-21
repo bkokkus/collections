@@ -3,7 +3,9 @@
     "description": "PHP Array Collections",
     "type": "library",
     "license": "MIT",
+    "minumum-stability": "dev",
     "require": {
     	"php" : ">=7.0"
     }
+
 }
