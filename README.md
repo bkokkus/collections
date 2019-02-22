@@ -2,6 +2,6 @@
 
 	PHP Array Collection
 
-# how to install array collections class
+# how to install 
 
 	composer require chestnutphp/collections
