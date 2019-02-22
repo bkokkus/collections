@@ -5,3 +5,13 @@ php:
   - '7.2'
   - '7.3'
   - hhvm
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - composer self-update
+  - composer validate
+
+install:
+  - composer install --prefer-source
