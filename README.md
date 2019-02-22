@@ -1,3 +1,5 @@
 # Getting Started!
 
-	composer require chestnutphp/collections
+```bash
+composer require chestnutphp/collections
+```
