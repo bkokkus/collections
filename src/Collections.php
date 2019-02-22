@@ -16,10 +16,25 @@ class Collections
         return $this->array;
     }
 
-    public function add($key)
+    public function add($value)
     {
-        $this->array[] = $key;
+        $this->array[] = $value;
         return $this;
     }
+
+    public function search($value)
+    {
+    	return array_search($value, $this->array);
+    		
+    }
+
+    public function remove($value)
+    {
+    	$key = $this->search($value);
+    	if($key !== false) {
+			unset($this->array[$key]);
+		}
+		return $this;
+    }	
 
 }
