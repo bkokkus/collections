@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Chestnut;
 
@@ -24,26 +24,26 @@ class Collections
 
     public function search($value)
     {
-    	return array_search($value, $this->array);
+        return array_search($value, $this->array);
     }
 
     public function remove($value)
     {
-    	$key = $this->search($value);
-    	if($key !== false) {
-			unset($this->array[$key]);
-		}
-		return $this;
-    }	
+        $key = $this->search($value);
+        if($key !== false) {
+            unset($this->array[$key]);
+        }
+        return $this;
+    }
 
     public function first()
     {
-    	return reset($this->array);
+        return reset($this->array);
     }
 
     public function last()
     {
-    	return end($this->array);
+        return end($this->array);
     }
 
 }
