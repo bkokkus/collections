@@ -1,5 +1,3 @@
-# collections
+# Getting Started!
 
-PHP Array Collection
-
-	ChestnutPhp
+	composer require chestnutphp/collections
