@@ -132,7 +132,7 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
         return isset($this->array[$offset]) ? $this->array[$offset] : null;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->array);
     }
@@ -141,4 +141,11 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     {
         return $this[$key];
     }
+
+    public function set($key, $value): void
+    {
+        $this[$key] = $value;
+    }
+
+    
 }
