@@ -140,7 +140,7 @@ class CollectionTest extends TestCase
         );
     }
 
-    public function test__ToStringJsonMethod()
+    public function test__ToStringMethod()
     {
         $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
         $this->assertJson((string)$c);
