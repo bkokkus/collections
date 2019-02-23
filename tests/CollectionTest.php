@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
  * Class CollectionTest
  *
  * @author Oğuz Han ÖZMEN <oushan16@gmail.com>
+ * @author Bekir KÖKKUŞ <bekirkokkus@gmail.com>
  */
 class CollectionTest extends TestCase
 {
@@ -79,5 +80,43 @@ class CollectionTest extends TestCase
             $c->toArray()
         );
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
+    }
+
+    public function testCurrentMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b']);
+        $this->assertEquals('a', $c->current());
+    }
+
+    public function testNextMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b']);
+        $c->next();
+        $this->assertEquals('b', $c->current());
+    }
+
+    public function testKeyMethod()
+    {
+        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c->next();
+        $this->assertEquals('key_2', $c->key());
+    }
+
+    public function testRewindMethod()
+    {
+        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c->next();
+        $this->assertEquals('key_2', $c->key());
+        $c->rewind();
+        $this->assertEquals('key_1', $c->key());
+    }
+
+    public function testValidMethod()
+    {
+        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c->next();
+        $this->assertTrue($c->valid());
+        $c->next();
+        $this->assertFalse($c->valid());
     }
 }
