@@ -89,6 +89,11 @@ class Collections implements \Iterator
         return new static(array_merge($this->array, $arr));
     }
 
+    public function chunk(int $size): self
+    {
+        return new static(array_chunk($this->array, $size, false));
+    }
+
     public function toJson(bool $prettyPrint = true): string
     {
         if (!$prettyPrint) {

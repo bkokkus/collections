@@ -157,4 +157,15 @@ class CollectionTest extends TestCase
             $mergedC->toArray()
         );
     }
+
+    public function testChunkMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $chunkedC = $c->chunk(2);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $chunkedC);
+        $this->assertEquals(
+            [['a', 'b'], ['c']],
+            $chunkedC->toArray()
+        );
+    }
 }
