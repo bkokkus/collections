@@ -2,7 +2,7 @@
 
 namespace Chestnut;
 
-class Collections implements \Iterator, \ArrayAccess
+class Collections implements \Iterator, \ArrayAccess, \Countable 
 {
     protected $array;
 
@@ -130,5 +130,15 @@ class Collections implements \Iterator, \ArrayAccess
     public function offsetGet($offset)
     {
         return isset($this->array[$offset]) ? $this->array[$offset] : null;
+    }
+
+    public function count()
+    {
+        return count($this->array);
+    }
+
+    public function get($key)
+    {
+        return $this[$key];
     }
 }
