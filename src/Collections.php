@@ -11,6 +11,11 @@ class Collections
         $this->array = $arr;
     }
 
+    public static function create(array $arr = []): self
+    {
+        return new static($arr);
+    }
+
     public function toArray(): array
     {
         return $this->array;
