@@ -28,7 +28,7 @@ class Collections implements \Iterator
         return $this->array;
     }
 
-    public function add($value)
+    public function add($value): self
     {
         $this->array[] = $value;
         return $this;
@@ -39,7 +39,7 @@ class Collections implements \Iterator
         return array_search($value, $this->array);
     }
 
-    public function remove($value)
+    public function remove($value): self
     {
         $key = $this->search($value);
         if($key !== false) {
@@ -60,7 +60,7 @@ class Collections implements \Iterator
 
     public function rewind()
     {
-        $this->position = 0;            
+        $this->position = 0;
     }
 
     public function current()
@@ -75,10 +75,10 @@ class Collections implements \Iterator
 
     public function next()
     {    
-        $this->position++;        
+        $this->position++;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->array[$this->key()]);
     }
