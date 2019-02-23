@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
  * Class CollectionTest
  *
  * @author Oğuz Han ÖZMEN <oushan16@gmail.com>
+ * @author Bekir KÖKKUŞ <bekirkokkus@gmail.com>
  */
 class CollectionTest extends TestCase
 {
