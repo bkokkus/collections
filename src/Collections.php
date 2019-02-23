@@ -56,4 +56,9 @@ class Collections
         return end($this->array);
     }
 
+    public function key()
+    {
+        return key($this->array);
+    }
+
 }
