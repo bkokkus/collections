@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
  * Class CollectionTest
  *
  * @author Oğuz Han ÖZMEN <oushan16@gmail.com>
+ * @author Bekir KÖKKUŞ <bekirkokkus@gmail.com>
  */
 class CollectionTest extends TestCase
 {
@@ -79,5 +80,92 @@ class CollectionTest extends TestCase
             $c->toArray()
         );
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
+    }
+
+    public function testCurrentMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b']);
+        $this->assertEquals('a', $c->current());
+    }
+
+    public function testNextMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b']);
+        $c->next();
+        $this->assertEquals('b', $c->current());
+    }
+
+    public function testKeyMethod()
+    {
+        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c->next();
+        $this->assertEquals('key_2', $c->key());
+    }
+
+    public function testRewindMethod()
+    {
+        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c->next();
+        $this->assertEquals('key_2', $c->key());
+        $c->rewind();
+        $this->assertEquals('key_1', $c->key());
+    }
+
+    public function testValidMethod()
+    {
+        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c->next();
+        $this->assertTrue($c->valid());
+        $c->next();
+        $this->assertFalse($c->valid());
+    }
+
+    public function testToJsonMethodWithPrettyPrint()
+    {
+        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $this->assertJson($c->toJson());
+        $this->assertEquals(
+            "{\n    \"1\": \"a\",\n    \"2\": \"b\"\n}",
+            $c->toJson()
+        );
+    }
+
+    public function testToJsonMethodWithoutPrettyPrint()
+    {
+        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $this->assertJson($c->toJson(false));
+        $this->assertEquals(
+            "{\"1\":\"a\",\"2\":\"b\"}",
+            $c->toJson(false)
+        );
+    }
+
+    public function test__ToStringMethod()
+    {
+        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $this->assertJson((string)$c);
+        $this->assertEquals($c->toJson(false), (string)$c);
+    }
+
+    public function testMergeMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $mergedC = $c->merge(['a', 'y', 'z']);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $mergedC);
+        $this->assertEquals(
+            ['a', 'b', 'c', 'a', 'y', 'z'],
+            $mergedC->toArray()
+        );
+    }
+
+    public function testChunkMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $chunkedC = $c->chunk(2);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $chunkedC);
+        $this->assertEquals(
+            [['a', 'b'], ['c']],
+            $chunkedC->toArray()
+        );
     }
 }
