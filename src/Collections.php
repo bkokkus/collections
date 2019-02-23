@@ -70,7 +70,7 @@ class Collections implements \Iterator
 
     public function key()
     {
-        return array_keys($this->array)[$this->position];
+        return array_keys($this->array)[$this->position] ?? null;
     }
 
     public function next()
