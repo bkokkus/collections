@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Chestnut;
 
@@ -82,6 +82,16 @@ class Collections implements \Iterator
     public function valid(): bool
     {
         return isset($this->array[$this->key()]);
+    }
+
+    public function merge(array $arr): self
+    {
+        return new static(array_merge($this->array, $arr));
+    }
+
+    public function chunk(int $size): self
+    {
+        return new static(array_chunk($this->array, $size, false));
     }
 
     public function toJson(bool $prettyPrint = true): string

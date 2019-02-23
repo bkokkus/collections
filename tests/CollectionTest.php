@@ -140,10 +140,32 @@ class CollectionTest extends TestCase
         );
     }
 
-    public function test__ToStringJsonMethod()
+    public function test__ToStringMethod()
     {
         $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
         $this->assertJson((string)$c);
         $this->assertEquals($c->toJson(false), (string)$c);
+    }
+
+    public function testMergeMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $mergedC = $c->merge(['a', 'y', 'z']);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $mergedC);
+        $this->assertEquals(
+            ['a', 'b', 'c', 'a', 'y', 'z'],
+            $mergedC->toArray()
+        );
+    }
+
+    public function testChunkMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $chunkedC = $c->chunk(2);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $chunkedC);
+        $this->assertEquals(
+            [['a', 'b'], ['c']],
+            $chunkedC->toArray()
+        );
     }
 }
