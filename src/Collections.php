@@ -5,6 +5,7 @@ namespace Chestnut;
 class Collections implements \Iterator
 {
     protected $array;
+
     protected $position;
 
     public function __construct(array $arr = [])
@@ -81,5 +82,19 @@ class Collections implements \Iterator
     public function valid(): bool
     {
         return isset($this->array[$this->key()]);
+    }
+
+    public function toJson(bool $prettyPrint = true): string
+    {
+        if (!$prettyPrint) {
+            return json_encode($this->array, JSON_UNESCAPED_UNICODE);
+        }
+
+        return json_encode($this->array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    }
+
+    public function __toString()
+    {
+        return $this->toJson(false);
     }
 }

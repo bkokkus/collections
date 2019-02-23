@@ -119,4 +119,31 @@ class CollectionTest extends TestCase
         $c->next();
         $this->assertFalse($c->valid());
     }
+
+    public function testToJsonMethodWithPrettyPrint()
+    {
+        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $this->assertJson($c->toJson());
+        $this->assertEquals(
+            "{\n    \"1\": \"a\",\n    \"2\": \"b\"\n}",
+            $c->toJson()
+        );
+    }
+
+    public function testToJsonMethodWithoutPrettyPrint()
+    {
+        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $this->assertJson($c->toJson(false));
+        $this->assertEquals(
+            "{\"1\":\"a\",\"2\":\"b\"}",
+            $c->toJson(false)
+        );
+    }
+
+    public function test__ToStringJsonMethod()
+    {
+        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $this->assertJson((string)$c);
+        $this->assertEquals($c->toJson(false), (string)$c);
+    }
 }
