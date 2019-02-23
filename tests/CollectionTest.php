@@ -146,4 +146,15 @@ class CollectionTest extends TestCase
         $this->assertJson((string)$c);
         $this->assertEquals($c->toJson(false), (string)$c);
     }
+
+    public function testMergeMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $mergedC = $c->merge(['a', 'y', 'z']);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $mergedC);
+        $this->assertEquals(
+            ['a', 'b', 'c', 'a', 'y', 'z'],
+            $mergedC->toArray()
+        );
+    }
 }

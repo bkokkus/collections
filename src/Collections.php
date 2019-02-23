@@ -84,6 +84,11 @@ class Collections implements \Iterator
         return isset($this->array[$this->key()]);
     }
 
+    public function merge(array $arr): self
+    {
+        return new static(array_merge($this->array, $arr));
+    }
+
     public function toJson(bool $prettyPrint = true): string
     {
         if (!$prettyPrint) {
