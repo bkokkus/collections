@@ -16,6 +16,11 @@ class Collections
         return new static($arr);
     }
 
+    public static function range($start, $end, $step = 1): self
+    {
+        return new static(range($start, $end, $step));
+    }
+
     public function toArray(): array
     {
         return $this->array;
