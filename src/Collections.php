@@ -2,13 +2,15 @@
 
 namespace Chestnut;
 
-class Collections
+class Collections implements \Iterator
 {
     protected $array;
+    protected $position;
 
     public function __construct(array $arr = [])
     {
         $this->array = $arr;
+        $this->position = 0;
     }
 
     public static function create(array $arr = []): self
@@ -56,9 +58,28 @@ class Collections
         return end($this->array);
     }
 
-    public function key()
+    public function rewind()
     {
-        return key($this->array);
+        $this->position = 0;            
     }
 
+    public function current()
+    {
+        return $this->array[$this->key()];
+    }
+
+    public function key()
+    {
+        return array_keys($this->array)[$this->position];
+    }
+
+    public function next()
+    {    
+        $this->position++;        
+    }
+
+    public function valid()
+    {
+        return isset($this->array[$this->key()]);
+    }
 }
