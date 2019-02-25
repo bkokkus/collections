@@ -132,7 +132,7 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
         return isset($this->array[$offset]) ? $this->array[$offset] : null;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->array);
     }
@@ -140,5 +140,40 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     public function get($key)
     {
         return $this[$key];
+    }
+
+    public function set($key, $value): void
+    {
+        $this[$key] = $value;
+    }
+
+    public function map(callable $callable): self
+    {
+    	return new static(array_map($callable, $this->array));
+    }
+
+    public function diff(Array $array): self
+    {
+    	return new static(array_diff($this->array, $array));
+    }
+    
+    public function flip(): self
+    {
+    	return new static(array_flip($this->array));
+    }
+
+    public function intersect(Array $array): self
+    {
+    	return new static(array_intersect($this->array, $array));
+    }
+
+    public function intersectAssoc(Array $array): self
+    {
+    	return new static(array_intersect_assoc($this->array, $array));
+    }
+
+    public function intersectKey(Array $array): self
+    {
+    	return new static(array_intersect_key($this->array, $array));
     }
 }
