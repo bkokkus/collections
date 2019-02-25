@@ -193,4 +193,5 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     {	
     	return new static(array_slice($this->array, $offset, $length, $key));
     }
+
 }
