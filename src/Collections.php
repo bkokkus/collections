@@ -176,4 +176,21 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     {
     	return new static(array_intersect_key($this->array, $array));
     }
+
+    public function shuffle(): bool
+    {
+    	shuffle($this->array);
+
+    	return $this;
+    }
+
+    public function reverse($key = false): self 
+    {
+    	return new static(array_reverse($this->array, $key));
+    }
+
+    public function slice($offset, $length = null, $key = false): self
+    {	
+    	return new static(array_slice($this->array, $offset, $length, $key));
+    }
 }
