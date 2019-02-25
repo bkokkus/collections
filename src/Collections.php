@@ -157,4 +157,9 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     	return new static(array_diff($this->array, $array));
     }
     
+    public function flip(): self
+    {
+    	return new static(array_flip($this->array));
+    }
+
 }
