@@ -194,4 +194,13 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     	return new static(array_slice($this->array, $offset, $length, $key));
     }
 
+    public function replace(Array $array, $recursively = false): self
+    {    	
+    	if(true === $recursively){
+    		return new static(array_replace_recursive($this->array, $array));	
+    	}
+
+    	return new static(array_replace($this->array, $array));
+    	
+    }
 }
