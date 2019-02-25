@@ -151,5 +151,10 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     {
     	return new static(array_map($callable, $this->array));
     }
+
+    public function diff(Array $array): self
+    {
+    	return new static(array_diff($this->array, $array));
+    }
     
 }
