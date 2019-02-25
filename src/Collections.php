@@ -183,4 +183,11 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
 
     	return $this;
     }
+
+    public function reverse($key = false): self 
+    {
+    	return new static(array_reverse($this->array, $key));
+    }
+
+    
 }
