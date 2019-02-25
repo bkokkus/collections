@@ -162,4 +162,10 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     	return new static(array_flip($this->array));
     }
 
+    public function intersect(Array $array): self
+    {
+    	return new static(array_intersect($this->array, $array));
+    }
+
+    
 }
