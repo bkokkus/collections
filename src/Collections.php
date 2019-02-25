@@ -147,5 +147,9 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
         $this[$key] = $value;
     }
 
+    public function map(callable $callable): self
+    {
+    	return new static(array_map($callable, $this->array));
+    }
     
 }
