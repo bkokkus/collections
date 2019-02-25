@@ -167,5 +167,13 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
     	return new static(array_intersect($this->array, $array));
     }
 
-    
+    public function intersectAssoc(Array $array): self
+    {
+    	return new static(array_intersect_assoc($this->array, $array));
+    }
+
+    public function intersectKey(Array $array): self
+    {
+    	return new static(array_intersect_key($this->array, $array));
+    }
 }
