@@ -49,32 +49,44 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function first()
     {
         return reset($this->array);
     }
 
+    /**
+     * @return mixed
+     */
     public function last()
     {
         return end($this->array);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
 
+    /**
+     * @return mixed
+     */
     public function current()
     {
         return $this->array[$this->key()];
     }
 
+    /**
+     * @return mixed|null
+     */
     public function key()
     {
         return array_keys($this->array)[$this->position] ?? null;
     }
 
-    public function next()
+    public function next(): void
     {    
         $this->position++;
     }
@@ -110,7 +122,7 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
 
     public function offsetSet($offset, $value)
     {
-        if(is_null($offset)) {
+        if($offset === null) {
             $this->array[] = $value;
         } else {
             $this->array[$offset] = $value;
