@@ -2,7 +2,7 @@
 
 namespace Chestnut;
 
-class Collections implements \Iterator
+class Collections implements \Iterator, \ArrayAccess, \Countable 
 {
     protected $array;
 
@@ -107,4 +107,112 @@ class Collections implements \Iterator
     {
         return $this->toJson(false);
     }
+
+    public function offsetSet($offset, $value)
+    {
+        if(is_null($offset)) {
+            $this->array[] = $value;
+        } else {
+            $this->array[$offset] = $value;
+        }
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->array[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->array[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->array[$offset]) ? $this->array[$offset] : null;
+    }
+
+    public function count(): int
+    {
+        return count($this->array);
+    }
+
+    public function get($key)
+    {
+        return $this[$key];
+    }
+
+    public function set($key, $value): void
+    {
+        $this[$key] = $value;
+    }
+
+    public function map(callable $callable): self
+    {
+    	return new static(array_map($callable, $this->array));
+    }
+
+    public function diff(Array $array): self
+    {
+    	return new static(array_diff($this->array, $array));
+    }
+    
+    public function flip(): self
+    {
+    	return new static(array_flip($this->array));
+    }
+
+    public function intersect(Array $array): self
+    {
+    	return new static(array_intersect($this->array, $array));
+    }
+
+    public function intersectAssoc(Array $array): self
+    {
+    	return new static(array_intersect_assoc($this->array, $array));
+    }
+
+    public function intersectKey(Array $array): self
+    {
+    	return new static(array_intersect_key($this->array, $array));
+    }
+
+    public function shuffle(): bool
+    {
+    	shuffle($this->array);
+
+    	return $this;
+    }
+
+    public function reverse($key = false): self 
+    {
+    	return new static(array_reverse($this->array, $key));
+    }
+
+    public function slice($offset, $length = null, $key = false): self
+    {	
+    	return new static(array_slice($this->array, $offset, $length, $key));
+    }
+
+    public function replace(Array $array, $recursively = false): self
+    {    	
+    	if(true === $recursively){
+    		return new static(array_replace_recursive($this->array, $array));	
+    	}
+
+    	return new static(array_replace($this->array, $array));
+    	
+    }
+
+    public function walk(callable $callable, $recursively = false): bool
+    {
+    	if(true === $recursively){
+    		array_walk_recursive($this->array, $callable);
+    	} else {
+    		array_walk($this->array, $callable);
+    	}
+
+    	return $this;
+    }
+    
 }
