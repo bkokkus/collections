@@ -90,7 +90,7 @@ class Collections implements Iterator, ArrayAccess, Countable
         return array_keys($this->array)[$this->position] ?? null;
     }
 
-    public function next(): void
+    public function next()
     {
         $this->position++;
     }
