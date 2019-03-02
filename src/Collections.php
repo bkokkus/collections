@@ -159,7 +159,7 @@ class Collections implements Iterator, ArrayAccess, Countable
         return $this[$key];
     }
 
-    public function set($key, $value): void
+    public function set($key, $value)
     {
         $this[$key] = $value;
     }
