@@ -169,7 +169,7 @@ class CollectionTest extends TestCase
         );
     }
 
-    public function testOffsetSetWithoutOffset()
+    public function testOffsetSetWithoutOffsetMethod()
     {
         $c = new \Chestnut\Collections([]);
         $c[] = 'Element 1';
@@ -177,11 +177,85 @@ class CollectionTest extends TestCase
         $this->assertEquals(['Element 1'], $c->toArray());
     }
 
-    public function testOffsetSetWithOffset()
+    public function testOffsetSetWithOffsetMethod()
     {
         $c = new \Chestnut\Collections([]);
         $c['Offset 1'] = 'Element 1';
         $this->assertCount(1, $c->toArray());
         $this->assertEquals(['Offset 1' => 'Element 1'], $c->toArray());
+    }
+
+    public function testOffsetExistsMethod()
+    {
+        $c = new \Chestnut\Collections(['foo' => 'bar']);
+        $this->assertTrue(true, isset($c['foo']));
+    }
+
+    public function testOffsetGetMethod()
+    {
+        $c = new \Chestnut\Collections(['foo' => 'bar']);
+        $this->assertEquals('bar', $c['foo']);
+        $this->assertEquals(null, $c['baz']);
+    }
+
+    public function testOffsetUnsetMethod()
+    {
+        $c = new \Chestnut\Collections(['foo' => 'bar']);
+        unset($c['foo']);
+        $this->assertNotContains('foo', $c->toArray());
+    }
+
+    public function testCountMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $this->assertCount(3, $c);
+    }
+
+    public function testGetMethod()
+    {
+        $c = new \Chestnut\Collections(['a' => 'b']);
+        $this->assertEquals('b', $c->get('a'));
+    }
+
+    public function testSetMethod()
+    {
+        $c = new \Chestnut\Collections(['a']);
+        $c->set('b', 'c');
+        $this->assertEquals(['a', 'b' => 'c'], $c->toArray());
+    }
+
+    public function testMapMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b']);
+        $mappedC = $c->map(function ($item) {
+            return 'mapped_' . $item;
+        });
+        $this->assertEquals(
+            ['mapped_a', 'mapped_b'],
+            $mappedC->toArray()
+        );
+        $this->assertNotEquals($c->toArray(), $mappedC->toArray());
+    }
+
+    public function testDiffMethod()
+    {
+        $c = new \Chestnut\Collections(['a', 'b']);
+        $diffedC = $c->diff(['a']);
+        $this->assertEquals(
+            [1 => 'b'],
+            $diffedC->toArray()
+        );
+        $this->assertNotEquals($c->toArray(), $diffedC->toArray());
+    }
+
+    public function testFlipMethod()
+    {
+        $c = new \Chestnut\Collections(['foo' => 'bar']);
+        $flippedC = $c->flip();
+        $this->assertEquals(
+            ['bar' => 'foo'],
+            $flippedC->toArray()
+        );
+        $this->assertNotEquals($c->toArray(), $flippedC->toArray());
     }
 }
