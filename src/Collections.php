@@ -216,14 +216,14 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
 
     }
 
-    public function walk(callable $callable, $recursively = false): bool
+    public function walk(callable $callable, $recursively = false): self
     {
         if(true === $recursively){
             array_walk_recursive($this->array, $callable);
-        } else {
-            array_walk($this->array, $callable);
+            return $this;
         }
 
+        array_walk($this->array, $callable);
         return $this;
     }
 
