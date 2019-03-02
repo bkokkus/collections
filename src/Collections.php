@@ -110,7 +110,7 @@ class Collections implements \Iterator, \ArrayAccess, \Countable
 
     public function offsetSet($offset, $value)
     {
-        if(is_null($offset)) {
+        if($offset === null) {
             $this->array[] = $value;
         } else {
             $this->array[$offset] = $value;
