@@ -168,4 +168,20 @@ class CollectionTest extends TestCase
             $chunkedC->toArray()
         );
     }
+
+    public function testOffsetSetWithoutOffset()
+    {
+        $c = new \Chestnut\Collections([]);
+        $c[] = 'Element 1';
+        $this->assertCount(1, $c->toArray());
+        $this->assertEquals(['Element 1'], $c->toArray());
+    }
+
+    public function testOffsetSetWithOffset()
+    {
+        $c = new \Chestnut\Collections([]);
+        $c['Offset 1'] = 'Element 1';
+        $this->assertCount(1, $c->toArray());
+        $this->assertEquals(['Offset 1' => 'Element 1'], $c->toArray());
+    }
 }
