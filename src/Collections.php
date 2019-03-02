@@ -119,7 +119,7 @@ class Collections implements Iterator, ArrayAccess, Countable
         return json_encode($this->array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson(false);
     }
@@ -128,9 +128,10 @@ class Collections implements Iterator, ArrayAccess, Countable
     {
         if($offset === null) {
             $this->array[] = $value;
-        } else {
-            $this->array[$offset] = $value;
+            return;
         }
+
+        $this->array[$offset] = $value;
     }
 
     public function offsetExists($offset)
@@ -168,7 +169,7 @@ class Collections implements Iterator, ArrayAccess, Countable
         return new static(array_map($callable, $this->array));
     }
 
-    public function diff(Array $array): self
+    public function diff(array $array): self
     {
         return new static(array_diff($this->array, $array));
     }
