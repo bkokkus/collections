@@ -2,7 +2,11 @@
 
 namespace Chestnut;
 
-class Collections implements \Iterator, \ArrayAccess, \Countable
+use ArrayAccess;
+use Countable;
+use Iterator;
+
+class Collections implements Iterator, ArrayAccess, Countable
 {
     protected $array;
 
