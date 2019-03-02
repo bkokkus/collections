@@ -69,7 +69,7 @@ class Collections implements Iterator, ArrayAccess, Countable
         return end($this->array);
     }
 
-    public function rewind(): void
+    public function rewind()
     {
         $this->position = 0;
     }
