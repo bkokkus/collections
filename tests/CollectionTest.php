@@ -111,31 +111,44 @@ class CollectionTest extends TestCase
         $this->assertEquals('key_1', $c->key());
     }
 
-    public function testValidMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testValidMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
-        $c->next();
-        $this->assertTrue($c->valid());
-        $c->next();
-        $this->assertFalse($c->valid());
+        $c = new \Chestnut\Collections($array);
+        foreach ($c->toArray() as $key => $value) {
+            $c->next();
+            $this->assertEquals(isset($array[$c->key()]), $c->valid());
+        }
+        $this->addToAssertionCount(1);
     }
 
-    public function testToJsonMethodWithPrettyPrint()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testToJsonMethodWithPrettyPrint(array $array)
     {
-        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $c = new \Chestnut\Collections($array);
         $this->assertJson($c->toJson());
         $this->assertEquals(
-            "{\n    \"1\": \"a\",\n    \"2\": \"b\"\n}",
+            json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
             $c->toJson()
         );
     }
 
-    public function testToJsonMethodWithoutPrettyPrint()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testToJsonMethodWithoutPrettyPrint(array $array)
     {
-        $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
+        $c = new \Chestnut\Collections($array);
         $this->assertJson($c->toJson(false));
         $this->assertEquals(
-            "{\"1\":\"a\",\"2\":\"b\"}",
+            json_encode($array, JSON_UNESCAPED_UNICODE),
             $c->toJson(false)
         );
     }
@@ -147,48 +160,67 @@ class CollectionTest extends TestCase
         $this->assertEquals($c->toJson(false), (string)$c);
     }
 
-    public function testMergeMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testMergeMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $c = new \Chestnut\Collections($array);
         $mergedC = $c->merge(['a', 'y', 'z']);
-        $this->assertInstanceOf(\Chestnut\Collections::class, $mergedC);
         $this->assertEquals(
-            ['a', 'b', 'c', 'a', 'y', 'z'],
+            array_merge($array, ['a', 'y', 'z']),
             $mergedC->toArray()
         );
+
+        $this->assertNotSame($c, $mergedC);
     }
 
-    public function testChunkMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testChunkMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b', 'c']);
+        $c = new \Chestnut\Collections($array);
         $chunkedC = $c->chunk(2);
-        $this->assertInstanceOf(\Chestnut\Collections::class, $chunkedC);
         $this->assertEquals(
-            [['a', 'b'], ['c']],
+            array_chunk($array, 2),
             $chunkedC->toArray()
         );
+        $this->assertNotSame($c, $chunkedC);
     }
 
-    public function testOffsetSetWithoutOffsetMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testOffsetSetWithoutOffsetMethod(array $array)
     {
-        $c = new \Chestnut\Collections([]);
+        $c = new \Chestnut\Collections($array);
         $c[] = 'Element 1';
-        $this->assertCount(1, $c->toArray());
-        $this->assertEquals(['Element 1'], $c->toArray());
+        $this->assertContains('Element 1', $c->toArray());
     }
 
-    public function testOffsetSetWithOffsetMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testOffsetSetWithOffsetMethod(array $array)
     {
-        $c = new \Chestnut\Collections([]);
+        $c = new \Chestnut\Collections($array);
         $c['Offset 1'] = 'Element 1';
-        $this->assertCount(1, $c->toArray());
-        $this->assertEquals(['Offset 1' => 'Element 1'], $c->toArray());
+        $this->assertArrayHasKey('Offset 1', $c->toArray());
     }
 
-    public function testOffsetExistsMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testOffsetExistsMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['foo' => 'bar']);
-        $this->assertTrue(true, isset($c['foo']));
+        $c = new \Chestnut\Collections($array);
+        $this->assertEquals(isset($array['foo']), isset($c['foo']));
     }
 
     public function testOffsetGetMethod()
@@ -198,17 +230,25 @@ class CollectionTest extends TestCase
         $this->assertEquals(null, $c['baz']);
     }
 
-    public function testOffsetUnsetMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testOffsetUnsetMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['foo' => 'bar']);
+        $c = new \Chestnut\Collections($array);
         unset($c['foo']);
-        $this->assertNotContains('foo', $c->toArray());
+        $this->assertArrayNotHasKey('foo', $c->toArray());
     }
 
-    public function testCountMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testCountMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b', 'c']);
-        $this->assertCount(3, $c);
+        $c = new \Chestnut\Collections($array);
+        $this->assertCount(count($array), $c);
     }
 
     public function testGetMethod()
@@ -217,45 +257,119 @@ class CollectionTest extends TestCase
         $this->assertEquals('b', $c->get('a'));
     }
 
-    public function testSetMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testSetMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a']);
+        $c = new \Chestnut\Collections($array);
         $c->set('b', 'c');
-        $this->assertEquals(['a', 'b' => 'c'], $c->toArray());
+        $array['b'] = 'c';
+        $this->assertEquals($array, $c->toArray());
     }
 
-    public function testMapMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testMapMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b']);
-        $mappedC = $c->map(function ($item) {
+        $func = function ($item) {
             return 'mapped_' . $item;
-        });
+        };
+        $c = new \Chestnut\Collections($array);
+        $mappedC = $c->map($func);
+        $mappedArray = array_map($func, $array);
         $this->assertEquals(
-            ['mapped_a', 'mapped_b'],
+            $mappedArray,
             $mappedC->toArray()
         );
-        $this->assertNotEquals($c->toArray(), $mappedC->toArray());
+        $this->assertNotSame($c, $mappedC);
     }
 
-    public function testDiffMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testDiffMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b']);
-        $diffedC = $c->diff(['a']);
+        $c = new \Chestnut\Collections($array);
+        $diffedC = $c->diff(['bar']);
         $this->assertEquals(
-            [1 => 'b'],
+            array_diff($array, ['bar']),
             $diffedC->toArray()
         );
-        $this->assertNotEquals($c->toArray(), $diffedC->toArray());
+        $this->assertNotSame($c, $diffedC);
     }
 
-    public function testFlipMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testFlipMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['foo' => 'bar']);
+        $c = new \Chestnut\Collections($array);
         $flippedC = $c->flip();
         $this->assertEquals(
-            ['bar' => 'foo'],
+            array_flip($array),
             $flippedC->toArray()
         );
-        $this->assertNotEquals($c->toArray(), $flippedC->toArray());
+        $this->assertNotSame($c, $flippedC);
+    }
+
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testShuffleMethod(array $array)
+    {
+        $c = new \Chestnut\Collections($array);
+        $shuffledC = $c->shuffle();
+        shuffle($array);
+        $this->assertSame($c, $shuffledC);
+        $this->assertSameSize($array, $shuffledC->toArray());
+    }
+
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testReverseMethod(array $array)
+    {
+        $c = new \Chestnut\Collections($array);
+        $reversedC = $c->reverse();
+        $reversedArray = array_reverse($array);
+        $this->assertEquals($reversedArray, $reversedC->toArray());
+    }
+
+    public function arrayProvider(): array
+    {
+        return [
+            'empty' => [
+                [],
+            ],
+            'indexed' => [
+                [
+                    1 => 'foo',
+                    2 => 'bar',
+                    3 => 'baz',
+                ],
+            ],
+            'assoc' => [
+                [
+                    'foo' => 1,
+                    'bar' => 2,
+                    'baz' => 3,
+                ],
+            ],
+            'mixed' => [
+                [
+                    1 => 'foo',
+                    'bar' => 2,
+                    'baz' => 'three',
+                ],
+            ],
+        ];
     }
 }

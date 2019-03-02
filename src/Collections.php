@@ -179,22 +179,22 @@ class Collections implements Iterator, ArrayAccess, Countable
         return new static(array_flip($this->array));
     }
 
-    public function intersect(Array $array): self
+    public function intersect(array $array): self
     {
         return new static(array_intersect($this->array, $array));
     }
 
-    public function intersectAssoc(Array $array): self
+    public function intersectAssoc(array $array): self
     {
         return new static(array_intersect_assoc($this->array, $array));
     }
 
-    public function intersectKey(Array $array): self
+    public function intersectKey(array $array): self
     {
         return new static(array_intersect_key($this->array, $array));
     }
 
-    public function shuffle(): bool
+    public function shuffle(): self
     {
         shuffle($this->array);
 
