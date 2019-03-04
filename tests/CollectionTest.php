@@ -391,6 +391,45 @@ class CollectionTest extends TestCase
         $this->assertEquals($reversedArray, $reversedC->toArray());
     }
 
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testSliceMethod(array $array)
+    {
+        $c = new \Chestnut\Collections($array);
+        $slicedC = $c->slice(1, 2);
+        $slicedArray = array_slice($array, 1, 2);
+        $this->assertEquals($slicedArray, $slicedC->toArray());
+        $this->assertNotSame($c, $slicedC);
+    }
+
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testReplaceMethod(array $array)
+    {
+        $c = new \Chestnut\Collections($array);
+        $replacedC = $c->replace(['foo']);
+        $replacedArray = array_replace($array, ['foo']);
+        $this->assertEquals($replacedArray, $replacedC->toArray());
+        $this->assertNotSame($c, $replacedC);
+    }
+
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testReplaceMethodWithRecursively(array $array)
+    {
+        $c = new \Chestnut\Collections($array);
+        $replacedC = $c->replace(['foo'], true);
+        $replacedArray = array_replace_recursive($array, ['foo']);
+        $this->assertEquals($replacedArray, $replacedC->toArray());
+        $this->assertNotSame($c, $replacedC);
+    }
+
     public function arrayProvider(): array
     {
         return [
@@ -416,6 +455,15 @@ class CollectionTest extends TestCase
                     1 => 'foo',
                     'bar' => 2,
                     'baz' => 'three',
+                ],
+            ],
+            'multi' => [
+                [
+                    1 => 'foo',
+                    2 =>'bar',
+                    'baz' => 'three',
+                    ['foo', 'baz'],
+                    ['bar'],
                 ],
             ],
         ];
