@@ -16,90 +16,138 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
     }
 
-    public function testToArrayMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testToArrayMethod(array $array)
     {
-        $c = new \Chestnut\Collections();
-        $this->assertSame([], $c->toArray());
+        $c = new \Chestnut\Collections($array);
+        $this->assertInstanceOf(\Chestnut\Collections::class, $c);
+        $this->assertEquals($array, $c->toArray());
     }
 
-    public function testCreateMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testCreateMethod(array $array)
     {
-        $c = \Chestnut\Collections::create(['a', 'b']);
+        $c = \Chestnut\Collections::create($array);
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
+        $this->assertEquals($array, $c->toArray());
     }
 
     public function testRangeMethodWithNumericValues()
     {
-        $c = \Chestnut\Collections::range(1, 3);
+        $c = \Chestnut\Collections::range(1, 400, 77);
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
-        $this->assertEquals([1, 2, 3], $c->toArray());
+        $this->assertEquals(range(1, 400, 77), $c->toArray());
     }
 
     public function testRangeMethodWithStringValues()
     {
-        $c = \Chestnut\Collections::range('a', 'c');
+        $c = \Chestnut\Collections::range('c', 'o');
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
-        $this->assertEquals(['a', 'b', 'c'], $c->toArray());
+        $this->assertEquals(range('c', 'o'), $c->toArray());
     }
 
-    public function testFirstMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testFirstMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['c', 'b', 'a']);
-        $this->assertEquals('c', $c->first());
+        $c = new \Chestnut\Collections($array);
+        $this->assertEquals(reset($array), $c->first());
     }
 
-    public function testLastMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testLastMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['c', 'b', 'a']);
-        $this->assertEquals('a', $c->last());
+        $c = new \Chestnut\Collections($array);
+        $this->assertEquals(end($array), $c->last());
     }
 
-    public function testSearchMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testSearchMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['c', 'b', 'a']);
-        $this->assertEquals(1, $c->search('b'));
-    }
-
-    public function testRemoveMethod()
-    {
-        $c = new \Chestnut\Collections(['c', 'b', 'a']);
-        $c->remove('b');
+        $c = new \Chestnut\Collections($array);
         $this->assertEquals(
-            [0 => 'c', 2 => 'a'],
+            array_search('foo', $array),
+            $c->search('foo')
+        );
+    }
+
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testRemoveMethod(array $array)
+    {
+        $c = new \Chestnut\Collections($array);
+        $c->remove('foo');
+        unset($array[array_search('foo', $array)]);
+        $this->assertEquals(
+            $array,
             $c->toArray()
         );
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
     }
 
-    public function testAddMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testAddMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b']);
+        $c = new \Chestnut\Collections($array);
         $c->add('d');
+        $array[] = 'd';
         $this->assertEquals(
-            ['a', 'b', 'd'],
+            $array,
             $c->toArray()
         );
         $this->assertInstanceOf(\Chestnut\Collections::class, $c);
     }
 
-    public function testCurrentMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testCurrentMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b']);
-        $this->assertEquals('a', $c->current());
+        $c = new \Chestnut\Collections($array);
+        $this->assertEquals(current($array), $c->current());
     }
 
-    public function testNextMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testNextMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['a', 'b']);
+        $c = new \Chestnut\Collections($array);
         $c->next();
-        $this->assertEquals('b', $c->current());
+        $this->assertEquals(next($array), $c->current());
     }
 
-    public function testKeyMethod()
+    /**
+     * @dataProvider arrayProvider
+     * @param array $array
+     */
+    public function testKeyMethod(array $array)
     {
-        $c = new \Chestnut\Collections(['key_1' => 'a', 'key_2' => 'b']);
+        $c = new \Chestnut\Collections($array);
         $c->next();
-        $this->assertEquals('key_2', $c->key());
+        next($array);
+        $this->assertEquals(key($array), $c->key());
     }
 
     public function testRewindMethod()

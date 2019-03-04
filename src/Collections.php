@@ -79,7 +79,7 @@ class Collections implements Iterator, ArrayAccess, Countable
      */
     public function current()
     {
-        return $this->array[$this->key()];
+        return $this->array[$this->key()] ?? false;
     }
 
     /**
