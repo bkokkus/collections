@@ -418,7 +418,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider arrayProvider
+     * @dataProvider arrayProviderWithMulti
      * @param array $array
      */
     public function testReplaceMethodWithRecursively(array $array)
@@ -457,15 +457,24 @@ class CollectionTest extends TestCase
                     'baz' => 'three',
                 ],
             ],
-            'multi' => [
-                [
-                    1 => 'foo',
-                    2 =>'bar',
-                    'baz' => 'three',
-                    ['foo', 'baz'],
-                    ['bar'],
-                ],
-            ],
         ];
+    }
+
+    public function arrayProviderWithMulti()
+    {
+        return array_merge(
+            $this->arrayProvider(),
+            [
+                'multi' => [
+                    [
+                        1 => 'foo',
+                        2 =>'bar',
+                        'baz' => 'three',
+                        ['foo', 'baz'],
+                        ['bar'],
+                    ],
+                ],
+            ]
+        );
     }
 }
