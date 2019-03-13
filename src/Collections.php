@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Chestnut;
 
@@ -36,6 +38,7 @@ class Collections implements Iterator, ArrayAccess, Countable
     public function add($value): self
     {
         $this->array[] = $value;
+
         return $this;
     }
 
@@ -47,9 +50,10 @@ class Collections implements Iterator, ArrayAccess, Countable
     public function remove($value): self
     {
         $key = $this->search($value);
-        if($key !== false) {
+        if ($key !== false) {
             unset($this->array[$key]);
         }
+
         return $this;
     }
 
@@ -126,8 +130,9 @@ class Collections implements Iterator, ArrayAccess, Countable
 
     public function offsetSet($offset, $value)
     {
-        if($offset === null) {
+        if ($offset === null) {
             $this->array[] = $value;
+
             return;
         }
 
@@ -213,23 +218,23 @@ class Collections implements Iterator, ArrayAccess, Countable
 
     public function replace(array $array, $recursively = false): self
     {
-        if(true === $recursively){
+        if (true === $recursively) {
             return new static(array_replace_recursive($this->array, $array));
         }
 
         return new static(array_replace($this->array, $array));
-
     }
 
     public function walk(callable $callable, $recursively = false): self
     {
-        if(true === $recursively){
+        if (true === $recursively) {
             array_walk_recursive($this->array, $callable);
+
             return $this;
         }
 
         array_walk($this->array, $callable);
+
         return $this;
     }
-
 }

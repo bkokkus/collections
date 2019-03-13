@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class CollectionTest
+ * Class CollectionTest.
  *
  * @author Oğuz Han ÖZMEN <oushan16@gmail.com>
  * @author Bekir KÖKKUŞ <bekirkokkus@gmail.com>
@@ -18,6 +18,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testToArrayMethod(array $array)
@@ -29,6 +30,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testCreateMethod(array $array)
@@ -54,6 +56,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testFirstMethod(array $array)
@@ -64,6 +67,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testLastMethod(array $array)
@@ -74,6 +78,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testSearchMethod(array $array)
@@ -87,6 +92,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testRemoveMethod(array $array)
@@ -103,6 +109,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testAddMethod(array $array)
@@ -119,6 +126,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testCurrentMethod(array $array)
@@ -129,6 +137,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testNextMethod(array $array)
@@ -140,6 +149,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testKeyMethod(array $array)
@@ -161,6 +171,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testValidMethod(array $array)
@@ -175,6 +186,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testToJsonMethodWithPrettyPrint(array $array)
@@ -189,6 +201,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testToJsonMethodWithoutPrettyPrint(array $array)
@@ -204,12 +217,13 @@ class CollectionTest extends TestCase
     public function test__ToStringMethod()
     {
         $c = new \Chestnut\Collections([1 => 'a', 2 => 'b']);
-        $this->assertJson((string)$c);
-        $this->assertEquals($c->toJson(false), (string)$c);
+        $this->assertJson((string) $c);
+        $this->assertEquals($c->toJson(false), (string) $c);
     }
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testMergeMethod(array $array)
@@ -226,6 +240,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testChunkMethod(array $array)
@@ -241,6 +256,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testOffsetSetWithoutOffsetMethod(array $array)
@@ -252,6 +268,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testOffsetSetWithOffsetMethod(array $array)
@@ -263,6 +280,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testOffsetExistsMethod(array $array)
@@ -280,6 +298,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testOffsetUnsetMethod(array $array)
@@ -291,6 +310,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testCountMethod(array $array)
@@ -307,6 +327,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testSetMethod(array $array)
@@ -319,12 +340,13 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testMapMethod(array $array)
     {
         $func = function ($item) {
-            return 'mapped_' . $item;
+            return 'mapped_'.$item;
         };
         $c = new \Chestnut\Collections($array);
         $mappedC = $c->map($func);
@@ -338,6 +360,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testDiffMethod(array $array)
@@ -353,6 +376,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testFlipMethod(array $array)
@@ -368,6 +392,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testShuffleMethod(array $array)
@@ -381,6 +406,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testReverseMethod(array $array)
@@ -393,6 +419,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testSliceMethod(array $array)
@@ -406,6 +433,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProvider
+     *
      * @param array $array
      */
     public function testReplaceMethod(array $array)
@@ -419,6 +447,7 @@ class CollectionTest extends TestCase
 
     /**
      * @dataProvider arrayProviderWithMulti
+     *
      * @param array $array
      */
     public function testReplaceMethodWithRecursively(array $array)
@@ -452,7 +481,7 @@ class CollectionTest extends TestCase
             ],
             'mixed' => [
                 [
-                    1 => 'foo',
+                    1     => 'foo',
                     'bar' => 2,
                     'baz' => 'three',
                 ],
@@ -467,8 +496,8 @@ class CollectionTest extends TestCase
             [
                 'multi' => [
                     [
-                        1 => 'foo',
-                        2 =>'bar',
+                        1     => 'foo',
+                        2     => 'bar',
                         'baz' => 'three',
                         ['foo', 'baz'],
                         ['bar'],
